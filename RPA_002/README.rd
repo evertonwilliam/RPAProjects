@@ -1,23 +1,16 @@
 ***********************************************************
 PROJETO RPA COM PYTHON
-Desafio 001 do site Mundo RPA
-https://mundorpa.com/desafio1.html]
+EM ELABORAÇÃO NA BRENCH LOCAL
 ***********************************************************
 
 Dependências:
 =====================
-pip install selenium
-pip install validate_email
-pip install logzero
-pip install logging
-pip install pandas
+
 
 
 Alterar as variáveis:
 =====================
-dirDownload - para o destino desejado.
-dirLog - para o destino desejado.
-fileLogName - para o nome do log desejado.
+
 
 
 Desenvolvedor:
