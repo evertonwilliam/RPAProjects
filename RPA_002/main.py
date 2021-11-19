@@ -8,6 +8,10 @@
 ##########################################
 # NECESSÁRIO OS SEGUINTES MÓDULOS PYTHON
 # pip install Chatterbot
+# py -m pip install --upgrade pip setuptools wheel
+#   Certifique-se de instalar o pacote rarfile ( https://pypi.org/project/rarfile/ )
+#   Certifique-se de instalar o winRar ( https://www.win-rar.com/ )
+#   Adicione o caminho para winRar à variável de ambiente.
 ##########################################
 
 ## IMPORTAÇÃO DOS MÓDULOS PYTHON
@@ -17,6 +21,8 @@ import sys
 import itertools
 import threading
 import os
+import numpy as np
+import rarfile
 from pywinauto.application import Application
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -41,6 +47,7 @@ dirProj = 'C:\RPATemp\Python\Projetos_RPA_Python\Py_04'
 dirLog  = '\log'
 dirExe  = '\exe'
 fileDw  = '\MundoRPA - Desafio App.rar'
+fileEx  = '\MundoRPA - Desafio App.exe'
 
 
 # FUNÇÃO QUE CRIA PASTAS NO WINDOWS
@@ -127,6 +134,16 @@ def getDownLoadedFileName(driver):
             if tagExecute == 'Falha - Erro na rede' or tagExecute == 'Cancelado':
                 return tagExecute
 
+# FUNCÃO QUE LÊ A TABELA DO SITE
+def getTabelaWeb(driver, object):
+    #table =  waitElement(driver, By.XPATH, object, 30)
+    itens = []
+    for row in object.find_elements(By.XPATH, ".//tr"):
+        itens.append([td.text for td in row.find_elements(By.XPATH, ".//td")])
+    return itens
+
+
+
 
 # EXECUTANDO O PROCESSO
 if(__name__) == '__main__':
@@ -136,28 +153,55 @@ if(__name__) == '__main__':
     createFolders(dirExe)
     
     # verifica os downloads
-    fileVerification(dirExe, fileDw)
+    #fileVerification(dirExe, fileDw)
     
     # Inicializa o navegador
     nav = initNavChrome(urlSite)
     
     # MAPEAMENTO
  
+    # LINK DESAFIOS
     linkDesafio = waitElement(nav, By.LINK_TEXT, 'Desafios', 40)
     linkDesafio.click()
 
-    linkDesafio = waitElement(nav, By.LINK_TEXT, 'Aplicação Desktop - Input', 30)
-    linkDesafio.click()
+    # LINK DE DOWNLOADS
+    #linkDownload = waitElement(nav, By.LINK_TEXT, 'Aplicação Desktop - Input', 30)
+    #linkDownload.click()
 
-    if getDownLoadedFileName(nav) != 'Concluido':
-        print('Erro de Download')
-        nav.close()
-        exit()
+    # AGUARDANDO O DOWNLOAD E VERIFICANDO SE JÁ BAIXOU TUDO
+    #if getDownLoadedFileName(nav) != 'Concluido':
+        #print('Erro de Download')
+        #nav.close()
+        #exit()
     
+    # LINK TABELA DE DADOS
     inkDesafio = waitElement(nav, By.LINK_TEXT, 'DESAFIO 4', 30)
     inkDesafio.click()
     
-      
+    # LER A TABELA
+    webTable =  waitElement(nav, By.XPATH, "//*[@id='area-principal-desafio']/div/table/tbody", 30)
+    dados = getTabelaWeb(nav, webTable)
     
+    #for i in range(len(dados)):
+        #print('Código: ', dados[i][0])
+        #print('Tipos: ', dados[i][1])
+        #print('Descrição: ', dados[i][2])
+
     #FECHA NAVEGADOR
-    #nav.close()
+    nav.close()
+
+    # DESCOMPACTA O EXECUTÁVEL BAIXADO
+    try:
+        r = rarfile.RarFile(dirProj+dirExe+fileDw)
+        r.extractall(dirProj+dirExe)
+        r.close()
+    except Exception as ex:
+        print(ex)
+
+    
+
+    
+    
+    
+    
+    
