@@ -21,9 +21,8 @@ import sys
 import itertools
 import threading
 import os
-import numpy as np
 import rarfile
-from pywinauto.application import Application
+import pyautogui
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -127,6 +126,7 @@ def getDownLoadedFileName(driver):
         finally:
             # CASO FINALIZE O DOWNLOAD, CONTINUA O PROCESSO
             if downloadPercentage == 100:
+               
                 driver.back()
                 return 'Concluido'
             
@@ -182,11 +182,6 @@ if(__name__) == '__main__':
     webTable =  waitElement(nav, By.XPATH, "//*[@id='area-principal-desafio']/div/table/tbody", 30)
     dados = getTabelaWeb(nav, webTable)
     
-    #for i in range(len(dados)):
-        #print('Código: ', dados[i][0])
-        #print('Tipos: ', dados[i][1])
-        #print('Descrição: ', dados[i][2])
-
     #FECHA NAVEGADOR
     nav.close()
 
@@ -197,9 +192,44 @@ if(__name__) == '__main__':
         r.close()
     except Exception as ex:
         print(ex)
+        exit()
 
+    # EFETUA O CADASTRO
+    try:
+        pyautogui.PAUSE = 0.1
+        pyautogui.hotkey('winleft', 'r')
+        pyautogui.hotkey('DEL')
+        pyautogui.typewrite(dirProj+dirExe+fileEx)
+        time.sleep(1)
+        pyautogui.hotkey('ENTER')
+        
+        time.sleep(7)
+        pyautogui.hotkey('TAB')    
     
-
+        for i in range(len(dados)):
+            pyautogui.hotkey('TAB')
+            pyautogui.hotkey('TAB')
+            pyautogui.hotkey('TAB')    
+            pyautogui.typewrite(dados[i][0])
+            pyautogui.hotkey('TAB')
+            pyautogui.typewrite(dados[i][1])
+            pyautogui.hotkey('TAB')
+            pyautogui.typewrite(dados[i][2])
+            pyautogui.hotkey('TAB')
+            pyautogui.hotkey('SPACE')
+            pyautogui.hotkey('SPACE')
+            
+    except Exception as ex:
+        print(ex)
+        exit()
+    finally:
+        pyautogui.hotkey('TAB')
+        pyautogui.hotkey('TAB')
+        pyautogui.hotkey('SPACE')
+        pyautogui.hotkey('SPACE')        
+        pyautogui.hotkey('ALT', 'F4')
+        pyautogui.alert('Fim do Processo')
+    
     
     
     
