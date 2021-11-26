@@ -11,6 +11,7 @@
 # PIP VALIDATE_EMAIL INSTALL
 # PIP LOGZERO
 # PIP PANDAS
+# Instalar o Python 3.x
 ##########################################
 
 ## IMPORTAÇÃO DOS MÓDULOS PYTHON

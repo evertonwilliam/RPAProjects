@@ -19,6 +19,12 @@ dirDownload - para o destino desejado.
 dirLog - para o destino desejado.
 fileLogName - para o nome do log desejado.
 
+Propósito do RPA
+=====================
+Acessar o site https://mundorpa.com/index.html
+Criar ambiente de execução
+Baixar a planilha com os dados a serem cadastrados
+Cadastrar os dados no site
 
 Desenvolvedor:
 =====================
