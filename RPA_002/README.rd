@@ -12,7 +12,6 @@ pip install logzero
 pip install logger
 pip install webdriver
 
-
 Alterar as variáveis:
 =====================
 dirProj = ''
